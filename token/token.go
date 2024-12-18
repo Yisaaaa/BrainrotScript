@@ -28,11 +28,8 @@ const (
 	LT = "<"
 	GT = ">"
 
-	// ==
-	ITSGIVING = "ITSGIVING"
-
-	// !=
-	CAP = "CAP"
+	EQ     = "EQ"
+	NOT_EQ = "NOT_EQ"
 
 	// Delimiters
 	COMMA     = ","
@@ -44,11 +41,30 @@ const (
 	RBRACE = "}"
 
 	// Keywords
-	LOCKIN              = "LOCKIN"              // let
-	SIGMA               = "SIGMA"               // True
-	SUS                 = "SUS"                 // False
-	CHATISTHISREAL      = "CHATISTHISREAL"      // if
-	MID                 = "MID"                 // else
-	PUTTHEFRIESINTHEBAG = "PUTTHEFRIESINTHEBAG" // return
-
+	LET      = "LET"
+	FUNCTION = "FUNCTION"
+	TRUE     = "TRUE"
+	FALSE    = "FALSE"
+	IF       = "IF"
+	ELSE     = "ELSE"
+	RETURN   = "RETURN"
 )
+
+var keywords = map[string]TokenType{
+	"lock in":                  LET,
+	"slay":                     FUNCTION,
+	"sigma":                    TRUE,
+	"cap":                      FALSE,
+	"chat is this real?":       IF,
+	"only in ohio":             ELSE,
+	"put the fries in the bag": RETURN,
+	"its giving":               EQ,
+	"feels different":          NOT_EQ,
+}
+
+func LookUpIdent(ident string) TokenType {
+	if tokenType, ok := keywords[ident]; ok {
+		return tokenType
+	}
+	return IDENT
+}
